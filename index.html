@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<!-- 声明文档语言为中文，有利于浏览器与无障碍工具正确识别 -->
+<html lang="zh-CN">
+<head>
+    <!-- 字符编码：必须放在最前面，保证中文不乱码 -->
+    <meta charset="UTF-8">
+    <!-- 移动端视口设置：让页面按设备真实宽度渲染，是响应式布局的前提 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO：页面描述，便于搜索引擎摘要展示 -->
+    <meta name="description" content="Tony 的个人主页 —— 海南大学软件工程（NIIT）在读，分享个人简介、项目作品与技术技能。">
+    <title>Tony 的个人主页</title>
+    <!-- 引入外部样式表：结构与样式分离，便于维护 -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ============ 顶部导航栏 ============ -->
+    <!-- header 语义化标签：表示页面或区块的头部 -->
+    <header class="site-header" id="top">
+        <nav class="nav" aria-label="主导航">
+            <!-- 站点标识（点击可回到顶部） -->
+            <a class="brand" href="#top">Tony<span>.dev</span></a>
+
+            <!-- 汉堡按钮：仅在窄屏显示，点击切换菜单展开/收起 -->
+            <!-- aria-expanded 用于无障碍，JS 会同步修改它的值 -->
+            <button class="nav-toggle" id="navToggle" aria-label="打开导航菜单" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+
+            <!-- 导航链接列表：href 使用锚点(#id)实现同页跳转 -->
+            <ul class="nav-list" id="navList">
+                <li><a href="#about">个人简介</a></li>
+                <li><a href="#skills">技能标签</a></li>
+                <li><a href="#works">作品展示</a></li>
+                <li><a href="#contact">联系方式</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ============ 主体内容 ============ -->
+    <!-- main 表示页面主要内容，一个页面只应有一个 -->
+    <main>
+
+        <!-- ===== 首屏 Hero 区：一句话定位 ===== -->
+        <section class="hero">
+            <div class="hero-inner">
+                <p class="hero-tag">海南大学 · 软件工程（NIIT）</p>
+                <!-- h1 全页唯一，是页面的核心标题 -->
+                <h1>你好，我是 <span class="accent">Tony</span></h1>
+                <p class="hero-desc">
+                    一名热爱把想法变成可运行产品的软件工程学生。
+                    相信「阅读拓宽视野、健身打磨自律、代码创造价值」。
+                </p>
+                <!-- 两个行动按钮，引导访客继续浏览 -->
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="#works">看看我的作品</a>
+                    <a class="btn btn-ghost" href="#contact">联系我</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 区块一：个人简介 ===== -->
+        <!-- id 与导航锚点对应，实现点击跳转 -->
+        <section class="section" id="about">
+            <h2 class="section-title">个人简介</h2>
+            <p class="section-sub">About Me</p>
+
+            <div class="about-card">
+                <p class="about-line">📚 爱好阅读 —— 用书籍输入，用代码输出。</p>
+                <p class="about-line">💪 坚持健身 —— 自律是最好的框架，身体也是需要长期维护的项目。</p>
+                <p class="about-line">🎮 王者荣耀 —— 团队配合与即时决策，和做工程项目一样有趣。</p>
+                <p class="about-line">🧑‍💻 专业方向 —— 海南大学软件工程（NIIT），专注 Java 后端与 Web 全栈开发。</p>
+            </div>
+        </section>
+
+        <!-- ===== 区块二：技能标签 ===== -->
+        <section class="section section-alt" id="skills">
+            <h2 class="section-title">技能标签</h2>
+            <p class="section-sub">Tech Stack</p>
+
+            <!-- 使用 ul + li 承载标签，语义清晰 -->
+            <ul class="skill-tags">
+                <li>Spring Boot</li>
+                <li>MySQL</li>
+                <li>MyBatis</li>
+                <li>Vue</li>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+                <li>Java</li>
+                <li>Git</li>
+            </ul>
+        </section>
+
+        <!-- ===== 区块三：作品展示（3 个卡片） ===== -->
+        <section class="section" id="works">
+            <h2 class="section-title">作品展示</h2>
+            <p class="section-sub">Projects</p>
+
+            <!-- 卡片容器：使用 Grid 布局，窄屏自动变为单列 -->
+            <div class="card-grid">
+
+                <!-- 作品卡片 1 -->
+                <article class="card">
+                    <!-- 装饰性图标，纯 CSS 绘制，无外部图片依赖 -->
+                    <div class="card-icon" aria-hidden="true">🏋️</div>
+                    <h3 class="card-title">FitCoach AI</h3>
+                    <p class="card-tag">个性化 AI 健身教练</p>
+                    <p class="card-desc">
+                        根据用户身体数据与训练目标，自动生成私人定制的健身计划，
+                        并同步给出可执行的饮食建议，让训练与营养形成闭环。
+                    </p>
+                    <ul class="card-meta">
+                        <li>个性化推荐</li>
+                        <li>计划生成</li>
+                        <li>饮食建议</li>
+                    </ul>
+                </article>
+
+                <!-- 作品卡片 2 -->
+                <article class="card">
+                    <div class="card-icon" aria-hidden="true">🧳</div>
+                    <h3 class="card-title">SmartTravel Assistant</h3>
+                    <p class="card-tag">AI 旅行助手</p>
+                    <p class="card-desc">
+                        自主规划完整行程：去程与返程的车票机票预订、景点筛选、
+                        住宿安排与预算配置，一站式解决出行决策。
+                    </p>
+                    <ul class="card-meta">
+                        <li>行程规划</li>
+                        <li>票务预订</li>
+                        <li>预算配置</li>
+                    </ul>
+                </article>
+
+                <!-- 作品卡片 3 -->
+                <article class="card">
+                    <div class="card-icon" aria-hidden="true">🅿️</div>
+                    <h3 class="card-title">停车场管理系统</h3>
+                    <p class="card-tag">自动化车辆进出管理</p>
+                    <p class="card-desc">
+                        实现车辆进出的自动化登记与放行，车位状态实时统计，
+                        减少人工值守成本，提升停车场通行效率。
+                    </p>
+                    <ul class="card-meta">
+                        <li>进出管理</li>
+                        <li>车位统计</li>
+                        <li>自动化</li>
+                    </ul>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- ===== 区块四：联系方式 ===== -->
+        <section class="section section-alt" id="contact">
+            <h2 class="section-title">联系方式</h2>
+            <p class="section-sub">Contact</p>
+
+            <div class="contact-box">
+                <p class="contact-tip">欢迎交流技术、项目合作或课程学习心得～</p>
+                <ul class="contact-list">
+                    <!-- 邮箱使用 mailto: 协议，点击可唤起邮件客户端 -->
+                    <!-- 注意：此处为占位邮箱，未使用任何真实隐私信息 -->
+                    <li>
+                        <span class="c-label">邮箱</span>
+                        <a class="c-value" href="mailto:example@mail.com">example@mail.com</a>
+                    </li>
+                    <li>
+                        <span class="c-label">学校</span>
+                        <span class="c-value">海南大学 · 软件工程（NIIT）</span>
+                    </li>
+                    <li>
+                        <span class="c-label">方向</span>
+                        <span class="c-value">Java 后端 / Web 全栈</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============ 页脚 ============ -->
+    <footer class="site-footer">
+        <p>© 2026 Tony · 计算思维与创意编程 课次 6 个人网页作业</p>
+        <p class="footer-note">本页所有联系方式均为占位示例，未包含任何真实隐私信息。</p>
+    </footer>
+
+    <!-- ============ 交互脚本 ============ -->
+    <script>
+        /**
+         * 功能 1：窄屏汉堡菜单展开/收起
+         * - 点击按钮时给导航列表添加/移除 open 类，由 CSS 控制显示
+         * - 同时同步 aria-expanded，保证无障碍语义正确
+         */
+        var navToggle = document.getElementById('navToggle');
+        var navList = document.getElementById('navList');
+
+        navToggle.addEventListener('click', function () {
+            var isOpen = navList.classList.toggle('open');       // 切换状态，返回切换后是否展开
+            navToggle.setAttribute('aria-expanded', isOpen);     // 同步无障碍属性
+            navToggle.classList.toggle('active', isOpen);        // 按钮动画（三条杠变叉号）
+        });
+
+        /**
+         * 功能 2：点击导航项后自动收起菜单（窄屏体验优化）
+         * - 遍历所有导航链接，绑定点击事件
+         */
+        var navLinks = navList.querySelectorAll('a');
+        navLinks.forEach(function (link) {
+            link.addEventListener('click', function () {
+                navList.classList.remove('open');
+                navToggle.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        /**
+         * 功能 3：滚动时给导航栏加阴影（增强层次感）
+         * - scrollY > 10 时添加 scrolled 类
+         */
+        var header = document.querySelector('.site-header');
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 10) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        /**
+         * 功能 4：滚动进入视口时的淡入动画（IntersectionObserver）
+         * - 给带 reveal 类的元素，在进入视口时添加 visible
+         * - 若浏览器不支持该 API，则直接全部显示，保证内容不丢失
+         */
+        // 先为需要做动画的元素统一加类，避免在 HTML 中重复书写
+        var revealTargets = document.querySelectorAll('.section, .card, .about-card, .contact-box');
+        revealTargets.forEach(function (el) { el.classList.add('reveal'); });
+
+        if ('IntersectionObserver' in window) {
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // 动画只触发一次
+                    }
+                });
+            }, { threshold: 0.12 });
+            revealTargets.forEach(function (el) { observer.observe(el); });
+        } else {
+            revealTargets.forEach(function (el) { el.classList.add('visible'); });
+        }
+    </script>
+
+</body>
+</html>

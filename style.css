@@ -1,0 +1,474 @@
+/* =========================================================
+   Tony 个人主页 —— 样式表
+   风格：现代化 / 蓝紫渐变 / 大留白 / 卡片化
+   说明：全站零外部依赖（不引用 CDN、不加载外部字体），
+        字体使用系统字体栈，离线双击即可正常显示。
+   ========================================================= */
+
+/* ---------- 1. 设计令牌（CSS 变量） ----------
+   集中定义颜色、圆角、阴影，便于统一修改主题 */
+:root {
+    --c-primary: #4f46e5;      /* 主色：靛蓝 */
+    --c-primary-2: #7c3aed;    /* 辅色：紫 */
+    --c-accent: #06b6d4;       /* 点缀色：青 */
+    --c-text: #1f2937;         /* 正文文字 */
+    --c-text-soft: #6b7280;    /* 次要文字 */
+    --c-bg: #ffffff;           /* 页面背景 */
+    --c-bg-soft: #f8fafc;      /* 浅色区块背景 */
+    --c-border: #e5e7eb;       /* 分割线 */
+    --radius: 16px;            /* 统一圆角 */
+    --radius-sm: 10px;
+    --shadow-sm: 0 2px 8px rgba(17, 24, 39, .06);
+    --shadow-md: 0 10px 30px rgba(17, 24, 39, .10);
+    --shadow-lg: 0 20px 45px rgba(17, 24, 39, .14);
+    --maxw: 1120px;            /* 内容最大宽度 */
+}
+
+/* ---------- 2. 全局重置 ---------- */
+/* box-sizing: border-box 让 padding/border 计入宽高，布局更好算 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    /* 锚点跳转时平滑滚动（原生实现，无需 JS） */
+    scroll-behavior: smooth;
+    /* 锚点定位时预留「导航栏 64px + 安全余量 24px」，避免标题被顶栏盖住 */
+    scroll-padding-top: 88px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    color: var(--c-text);
+    background: var(--c-bg);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 统一链接样式：去掉默认下划线，颜色继承 */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul { list-style: none; }
+
+img { max-width: 100%; display: block; }
+
+/* ---------- 3. 顶部导航栏 ---------- */
+.site-header {
+    position: sticky;          /* 吸顶：滚动时始终可见 */
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, .85);
+    backdrop-filter: blur(12px);           /* 毛玻璃效果（现代化观感） */
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--c-border);
+    transition: box-shadow .3s ease;
+}
+
+/* 滚动后加阴影，由 JS 添加该类名 */
+.site-header.scrolled { box-shadow: var(--shadow-sm); }
+
+.nav {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;   /* 品牌在左，菜单在右 */
+    gap: 16px;
+}
+
+/* 站点标识 */
+.brand {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: .3px;
+}
+.brand span {
+    /* 渐变文字：背景裁切到文字上 */
+    background: linear-gradient(135deg, var(--c-primary), var(--c-accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* 导航菜单（宽屏横向排列） */
+.nav-list {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+.nav-list a {
+    position: relative;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--c-text-soft);
+    padding: 6px 2px;
+    transition: color .25s ease;
+}
+/* 悬停变色 */
+.nav-list a:hover { color: var(--c-primary); }
+/* 悬停时出现下划线（用伪元素实现，从中间展开） */
+.nav-list a::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg, var(--c-primary), var(--c-accent));
+    transition: width .25s ease;
+}
+.nav-list a:hover::after { width: 100%; }
+
+/* 汉堡按钮：默认隐藏，窄屏才显示 */
+.nav-toggle {
+    display: none;
+    width: 40px; height: 40px;
+    border: 1px solid var(--c-border);
+    border-radius: 10px;
+    background: #fff;
+    cursor: pointer;
+    padding: 10px 9px;
+    flex-direction: column;
+    justify-content: space-between;
+}
+/* 汉堡的三条杠 */
+.nav-toggle span {
+    display: block;
+    height: 2px;
+    background: var(--c-text);
+    border-radius: 2px;
+    transition: transform .3s ease, opacity .2s ease;
+}
+/* 展开状态：三条杠变成叉号 */
+.nav-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.nav-toggle.active span:nth-child(2) { opacity: 0; }
+.nav-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* ---------- 4. 首屏 Hero ---------- */
+.hero {
+    position: relative;
+    overflow: hidden;
+    padding: 96px 24px 88px;
+    /* 顶部深色渐变背景，营造现代科技感 */
+    background:
+        radial-gradient(900px 400px at 15% -10%, rgba(124, 58, 237, .28), transparent 60%),
+        radial-gradient(800px 380px at 85% 0%, rgba(6, 182, 212, .22), transparent 60%),
+        linear-gradient(160deg, #0f172a 0%, #1e1b4b 55%, #312e81 100%);
+    color: #fff;
+    text-align: center;
+}
+.hero-inner { max-width: 760px; margin: 0 auto; }
+
+.hero-tag {
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 2px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .14);
+    border: 1px solid rgba(255, 255, 255, .25);
+    margin-bottom: 22px;
+}
+.hero h1 {
+    font-size: clamp(34px, 6vw, 56px);   /* clamp：字号随视口自适应，窄屏不会过大 */
+    line-height: 1.25;
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+.hero h1 .accent {
+    background: linear-gradient(135deg, #a5b4fc, #67e8f9);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.hero-desc {
+    font-size: clamp(15px, 2.2vw, 18px);
+    color: rgba(255, 255, 255, .82);
+    max-width: 620px;
+    margin: 0 auto 34px;
+}
+
+/* 首屏按钮组 */
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;      /* 窄屏自动换行，不溢出 */
+}
+.btn {
+    display: inline-block;
+    padding: 12px 26px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.btn-primary {
+    background: #fff;
+    color: #1e1b4b;
+    box-shadow: var(--shadow-md);
+}
+.btn-ghost {
+    border: 1px solid rgba(255, 255, 255, .45);
+    color: #fff;
+}
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, .22);
+}
+.btn-ghost:hover { background: rgba(255, 255, 255, .12); }
+
+/* ---------- 5. 通用区块 ---------- */
+.section {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 72px 24px;
+}
+/* 浅灰底区块：与白色区块交替，形成节奏感 */
+.section-alt {
+    max-width: none;
+    background: var(--c-bg-soft);
+    border-top: 1px solid var(--c-border);
+    border-bottom: 1px solid var(--c-border);
+}
+.section-alt > * { max-width: var(--maxw); margin-left: auto; margin-right: auto; }
+
+.section-title {
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 6px;
+}
+/* 标题下方的英文小注 */
+.section-sub {
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--c-text-soft);
+    margin-bottom: 40px;
+}
+
+/* ---------- 6. 个人简介卡片 ---------- */
+.about-card {
+    background: #fff;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 32px 34px;
+    box-shadow: var(--shadow-sm);
+    /* 左侧渐变竖条作为视觉锚点 */
+    border-left: 5px solid var(--c-primary);
+}
+.about-line {
+    font-size: 16px;
+    padding: 8px 0;
+    color: #374151;
+}
+
+/* ---------- 7. 技能标签 ---------- */
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;      /* 关键：标签自动换行，窄屏不错位 */
+    justify-content: center;
+    gap: 12px;
+}
+.skill-tags li {
+    padding: 9px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--c-primary);
+    background: #eef2ff;
+    border: 1px solid #e0e7ff;
+    border-radius: 999px;
+    transition: transform .2s ease, background .2s ease, color .2s ease;
+}
+.skill-tags li:hover {
+    transform: translateY(-3px);
+    background: var(--c-primary);
+    color: #fff;
+}
+
+/* ---------- 8. 作品卡片（Grid 响应式） ---------- */
+.card-grid {
+    display: grid;
+    /* auto-fit + minmax：列数随宽度自动变化，无需手写多套媒体查询 */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 26px;
+}
+.card {
+    background: #fff;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 28px 26px;
+    box-shadow: var(--shadow-sm);
+    transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    display: flex;
+    flex-direction: column;
+}
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: #c7d2fe;
+}
+.card-icon {
+    width: 52px; height: 52px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #eef2ff, #e0f2fe);
+    margin-bottom: 16px;
+}
+.card-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.card-tag {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--c-primary);
+    margin-bottom: 12px;
+}
+.card-desc {
+    font-size: 14.5px;
+    color: var(--c-text-soft);
+    margin-bottom: 16px;
+    flex: 1;    /* 撑开剩余空间，让底部标签行对齐 */
+}
+.card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.card-meta li {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--c-bg-soft);
+    color: var(--c-text-soft);
+    border: 1px solid var(--c-border);
+}
+
+/* ---------- 9. 联系方式 ---------- */
+.contact-box {
+    background: #fff;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 34px;
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+}
+.contact-tip {
+    color: var(--c-text-soft);
+    margin-bottom: 22px;
+}
+.contact-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    text-align: left;
+}
+.contact-list li {
+    background: var(--c-bg-soft);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+}
+.c-label {
+    display: block;
+    font-size: 12px;
+    color: var(--c-text-soft);
+    margin-bottom: 4px;
+}
+.c-value {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    /* 长内容（如邮箱）自动断行，防止撑破容器 */
+    word-break: break-all;
+}
+a.c-value { color: var(--c-primary); }
+a.c-value:hover { text-decoration: underline; }
+
+/* ---------- 10. 页脚 ---------- */
+.site-footer {
+    background: #0f172a;
+    color: rgba(255, 255, 255, .7);
+    text-align: center;
+    padding: 34px 24px;
+    font-size: 14px;
+}
+.footer-note {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, .45);
+    margin-top: 6px;
+}
+
+/* ---------- 11. 滚动淡入动画 ---------- */
+/* 初始：透明 + 下移，由 JS 添加 visible 触发过渡 */
+.reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* ---------- 12. 响应式：窄屏适配 ---------- */
+@media (max-width: 768px) {
+    /* 显示汉堡按钮，隐藏横向菜单 */
+    .nav-toggle { display: flex; }
+    .nav-list {
+        /* 绝对定位到导航栏下方，默认收起 */
+        position: absolute;
+        top: 64px; left: 0; right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        background: #fff;
+        border-bottom: 1px solid var(--c-border);
+        box-shadow: var(--shadow-md);
+        /* 用 max-height 实现展开/收起动画 */
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height .3s ease;
+    }
+    .nav-list.open { max-height: 320px; }
+    .nav-list li { border-top: 1px solid var(--c-border); }
+    .nav-list a {
+        display: block;
+        padding: 14px 24px;
+        font-size: 16px;
+        color: var(--c-text);
+    }
+    /* 窄屏下取消悬停下划线动画（触摸设备无悬停） */
+    .nav-list a::after { display: none; }
+
+    /* 缩小内边距，避免内容过挤 */
+    .hero { padding: 64px 20px 56px; }
+    .section { padding: 52px 20px; }
+    .about-card,
+    .contact-box { padding: 24px 20px; }
+}
+
+/* 超窄屏（如 380px 以下的小屏手机）进一步收敛 */
+@media (max-width: 380px) {
+    .hero h1 { font-size: 28px; }
+    .btn { padding: 11px 20px; font-size: 14px; }
+    .section-title { font-size: 22px; }
+}
+
+/* ---------- 13. 无障碍：尊重"减少动态效果"偏好 ---------- */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .card:hover, .btn:hover { transform: none; }
+}
